@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ShopListMvc;
 using ShopListMvc.Data;
@@ -21,11 +22,14 @@ namespace RequestMvc.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public AuthController(SignInManager<IdentityUser> signInManager, ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public IConfiguration Configuration { get; }
+
+        public AuthController(SignInManager<IdentityUser> signInManager, ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
             _signInManager = signInManager;
             _context = context;
             _userManager = userManager;
+            Configuration = configuration;
         }
 
         [HttpPost, Route("login")]
@@ -45,12 +49,12 @@ namespace RequestMvc.Controllers
                 var now = DateTime.UtcNow;
                 // создаем JWT-токен
                 var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
+                        issuer: Configuration["AuthOptions:ISSUER"],
+                        audience: Configuration["AuthOptions:AUDIENCE"],
                         notBefore: now,
                         claims: claimsIdentity.Claims,
                         expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:KEY"]), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
                 var response = new
@@ -102,6 +106,7 @@ namespace RequestMvc.Controllers
 
             Profile profile = new Profile();
             profile.UserId = user.Id;
+            profile.Nickname = user.Email;
             _context.Profiles.Add(profile);
             _context.SaveChanges();
 
@@ -123,12 +128,12 @@ namespace RequestMvc.Controllers
                 var now = DateTime.UtcNow;
                 // создаем JWT-токен
                 var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
+                        issuer: Configuration["AuthOptions:ISSUER"],
+                        audience: Configuration["AuthOptions:AUDIENCE"],
                         notBefore: now,
                         claims: claimsIdentity.Claims,
                         expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:KEY"]), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
                 var response = new

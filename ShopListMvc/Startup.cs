@@ -45,17 +45,17 @@ namespace ShopListMvc
                             // укзывает, будет ли валидироваться издатель при валидации токена
                             ValidateIssuer = true,
                             // строка, представляющая издателя
-                            ValidIssuer = AuthOptions.ISSUER,
+                            ValidIssuer = Configuration["AuthOptions:ISSUER"],
 
                             // будет ли валидироваться потребитель токена
                             ValidateAudience = true,
                             // установка потребителя токена
-                            ValidAudience = AuthOptions.AUDIENCE,
+                            ValidAudience = Configuration["AuthOptions:AUDIENCE"],
                             // будет ли валидироваться время существования
                             ValidateLifetime = false,
 
                             // установка ключа безопасности
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:KEY"]),
                             // валидация ключа безопасности
                             ValidateIssuerSigningKey = true,
                         };

@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using ShopListMvc;
 using ShopListMvc.Data;
 using ShopListMvc.Models;
 
-namespace RequestMvc.Controllers
+namespace ShopListMvc.Controllers
 {
     [Route("api/auth")]
     [ApiController]
@@ -54,7 +53,7 @@ namespace RequestMvc.Controllers
                         notBefore: now,
                         claims: claimsIdentity.Claims,
                         expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:KEY"]), SecurityAlgorithms.HmacSha256));
+                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:JWTKEY"]), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
                 var response = new

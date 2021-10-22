@@ -6,6 +6,7 @@ WORKDIR /source
 COPY *.sln .
 COPY ShopListMvc/*.csproj ./ShopListMvc/
 RUN dotnet restore
+RUN dotnet ef database update
 
 # copy everything else and build app
 COPY ShopListMvc/. ./ShopListMvc/

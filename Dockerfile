@@ -6,10 +6,6 @@ WORKDIR /source
 COPY *.sln .
 COPY ShopListMvc/*.csproj ./ShopListMvc/
 RUN dotnet restore
-# install dotnet-ef
-RUN dotnet tool install dotnet-ef
-# apply migrations
-RUN dotnet ef database update
 
 # copy everything else and build app
 COPY ShopListMvc/. ./ShopListMvc/

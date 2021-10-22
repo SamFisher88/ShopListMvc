@@ -32,8 +32,8 @@ namespace ShopListMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection"))));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

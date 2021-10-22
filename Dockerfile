@@ -7,7 +7,7 @@ COPY *.sln .
 COPY ShopListMvc/*.csproj ./ShopListMvc/
 RUN dotnet restore
 # install dotnet-ef
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install dotnet-ef
 # apply migrations
 RUN dotnet ef database update
 

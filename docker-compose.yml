@@ -5,6 +5,10 @@ services:
     build: .
     ports:
       - "8000:80"
+    environment:
+      - AuthOptions__ISSUER=ShopListMVCBackend20210615
+      - AuthOptions__AUDIENCE=ShopListReactNative20210615
+      - AuthOptions__JWTKEY=awwwwwwwwwwesome_jwt_secret_key20210615
     depends_on:
       - mysql
   mysql:

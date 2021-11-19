@@ -9,6 +9,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: ShopList
+    ports:
+      - "3306"
   app:
     build: .
     ports:

@@ -2,8 +2,7 @@ version: "3.7"
 
 services:
   db:
-    platform: linux/x86_64
-    image: mysql:5.7
+    image: mariadb:10.5.8
     volumes:
       - todo-mysql-data:/var/lib/mysql
       - ./_MySQL_Init_Script:/docker-entrypoint=initdb.d

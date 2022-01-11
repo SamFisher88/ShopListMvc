@@ -14,5 +14,7 @@ namespace ShopListMvc.Data
         }
 
         public DbSet<Profile> Profiles { get; set; }
+        public DbSet<ProductsGroup> ProductsGroups { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

@@ -132,7 +132,7 @@ namespace ShopListMvc.Controllers
                         notBefore: now,
                         claims: claimsIdentity.Claims,
                         expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:KEY"]), SecurityAlgorithms.HmacSha256));
+                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(Configuration["AuthOptions:JWTKEY"]), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
                 var response = new

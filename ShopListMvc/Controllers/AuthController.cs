@@ -92,7 +92,7 @@ namespace ShopListMvc.Controllers
 
             if (errors.Count > 0)
             {
-                return Ok(new { errors });
+                return Ok(new { type = "error", errors });
             }
 
             IdentityUser user = new IdentityUser { Email = model.Email, UserName = model.Email };
@@ -141,7 +141,7 @@ namespace ShopListMvc.Controllers
                     username = claimsIdentity.Name
                 };
 
-                return Ok(response);
+                return Ok(new { type = "ok", user = response });
             }
 
             return BadRequest();

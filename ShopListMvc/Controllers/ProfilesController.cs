@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using ShopListMvc.Data;
 
 namespace ShopListMvc.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProfilesController : ControllerBase
@@ -30,7 +32,7 @@ namespace ShopListMvc.Controllers
             return await _context.Profiles.Where(x => x.UserId == _userManager.GetUserId(User)).ToListAsync();
         }
 
-        [HttpGet]
+        [HttpGet, Route("my")]
         public async Task<ActionResult<Profile>> My()
         {
             return await _context.Profiles.SingleAsync(x => x.UserId == _userManager.GetUserId(User));

@@ -29,7 +29,7 @@ namespace ShopListMvc.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Profile>>> GetProfiles()
         {
-            return await _context.Profiles.Where(x => x.UserId == _userManager.GetUserId(User)).ToListAsync();
+            return await _context.Profiles.Include(x => x.User).Where(x => x.UserId == _userManager.GetUserId(User)).ToListAsync();
         }
 
         [HttpGet, Route("my")]
@@ -76,7 +76,7 @@ namespace ShopListMvc.Controllers
                 throw;
             }
 
-            return Ok(new {type = "ok"});
+            return Ok(new {type = "ok", result = oldProfile});
         }
 
         private bool ProfileExists(int id)
